@@ -12,6 +12,7 @@ public class SessionIDGenerator {
     private Set<String> sessionIdsUsed = new HashSet<String>();
     private Set<String> sessionIdsUnused = new HashSet<String>();
     private Set<String> clients = new HashSet<String>();
+    int sequence=0;
 
     public Map<String, List<String>> getSessionIds() {
         return sessionIds;
@@ -42,7 +43,7 @@ public class SessionIDGenerator {
             sessionIdsUnused.removeAll(temp);
             if(count!=MAX_RANGE)
             {
-                String sessionId=UUID.randomUUID().toString();
+                String sessionId=String.valueOf(sequence++);
                 sessionIds.add(sessionId);
                 sessionIdsUsed.add(sessionId);
                 count++;
@@ -89,18 +90,15 @@ public class SessionIDGenerator {
 
     public String generateClientId() {
 
-        while (true) {
-            String clientId = UUID.randomUUID().toString();
-        /*if (!clients.contains(clientId)) {
-            clients.add(clientId);
-            return clientId;
+        String clientId=UUID.randomUUID().toString();
+        while(clients.contains(clientId)) {
+            clientId=UUID.randomUUID().toString();
         }
-        else
-        {*/
-            return clientId;
-        //}
+        clients.add(clientId);
+        return clientId;
+
       }
 
     }
 
-}
+
